@@ -1,5 +1,9 @@
 # callmaskv3
 
+### Node version
+
+v16.15.0
+
 ## Project setup
 ```
 yarn install
