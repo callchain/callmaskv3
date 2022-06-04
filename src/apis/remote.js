@@ -24,7 +24,9 @@ export const getRemote = async () => {
 }
 
 const createRemote = () => {
+    // eslint-disable-next-line
     const remote = new call.CallAPI({server: S3_URL})
+
     remote.on('error', function(code, msg) {
         console.error('Call connection error, code=' + code + ', msg=' + msg)
         store.dispatch("networkState", false)

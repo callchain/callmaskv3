@@ -4,17 +4,27 @@
     "description": "Callchain web extension wallet",
     "version": "0.1.0",
     "background": {
-        "service_worker": "/background.js"
+        "service_worker": "/bg-wrapper.js"
     },
     "action": {
         "default_popup": "popup.html"
     },
+    "permissions": [
+        "tabs",
+        "storage",
+        "activeTab"
+    ],
+    "host_permissions": [
+        "<all_urls>",
+        "*://*/*"
+    ],
     "content_scripts": [
         {
             "matches": [
                 "<all_urls>"
             ],
             "js": [
+                "/libs/browser-polyfill.min.js",
                 "/content.js"
             ]
         }

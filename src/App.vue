@@ -14,11 +14,12 @@ export default {
   data: () => ({
     //
   }),
-  created() {
+  async created() {
     const storeId = browser.runtime.id + "-callstore"
-    if (localStorage.getItem(storeId) ) {
+    const _stored = await browser.storage.local.get(storeId)
+    if (_stored) {
         // restore state data
-        const storedState = JSON.parse(localStorage.getItem(storeId))
+        const storedState = JSON.parse(_stored)
         const needState = {
           accounts: storedState.accounts,
           currentAccIndex: storedState.currentAccIndex,

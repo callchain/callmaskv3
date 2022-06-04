@@ -30,10 +30,10 @@ const contentConnections = {} // cid => connection
 const hashToConnections = {} // hash => cid
 const appToConnections = {} // app => cid
 
-browser.runtime.onInstalled.addListener(function () {
+browser.runtime.onInstalled.addListener(async function () {
     console.log("CallMask extension installed" + new Date())
 
-    restoreState();
+    await restoreState();
 });
 
 /**
@@ -91,7 +91,7 @@ const handleApiCalls = async (msg, port) => {
 
     switch (msg.type) {
         case MSG_TYPE.DISCONNECT:
-            disconnectUpdate(app);
+            await disconnectUpdate(app);
             break;
         case MSG_TYPE.CONNECT:
         case MSG_TYPE.CURRENT_ACCOUNTS:
@@ -203,16 +203,16 @@ const handleUiApiCalls = async (msg) => {
 
     switch (msg.msg_type) {
         case RPC_CALL.INIT_ACCOUNT:
-            result = initAccountUpdate(msg.data);
+            result = await initAccountUpdate(msg.data);
             break;
         case RPC_CALL.ADD_ACCCOUNT:
-            result = addAccountUpdate(msg.data);
+            result = await addAccountUpdate(msg.data);
             break;
         case RPC_CALL.CHANGE_ACCOUNT:
-            result = changeAccountUpdate(msg.data);
+            result = await changeAccountUpdate(msg.data);
             break;
         case RPC_CALL.CONNECT_ACCOUNT:
-            result = connectAccountUpdate(msg.data);
+            result = await connectAccountUpdate(msg.data);
             // forward to content-script -> inpage
             if (result.changed) {
                 forwardToApp(MSG_TYPE.ACCOUNT_CHANGED, {
@@ -222,10 +222,10 @@ const handleUiApiCalls = async (msg) => {
             }            
             break;
         case RPC_CALL.EDIT_ACCOUNT_NAME:
-            result = editAccountNameUpdate(msg.data);
+            result = await editAccountNameUpdate(msg.data);
             break;
         case RPC_CALL.NEW_RECIPIENT:
-            result = newRecipientUpdate(msg.data);
+            result = await newRecipientUpdate(msg.data);
             break;
         case RPC_CALL.NETWORK_STATE:
             result = networkStateUpdate(msg.data);

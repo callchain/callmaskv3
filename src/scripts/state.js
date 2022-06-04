@@ -24,13 +24,13 @@ export const getCurrentAccounts = (app) => {
     return _callState.whitelist[app] || []
 }
 
-export const disconnectUpdate = (app) => {
+export const disconnectUpdate = async (app) => {
     _callState.whitelist[app] = undefined;
 
-    saveState();
+    await saveState();
 }
 
-export const connectAccountUpdate = (info) => {
+export const connectAccountUpdate = async (info) => {
     const accountList = info.account;
     let list = _callState.whitelist[info.app] || [];
     let changed = false;
@@ -62,7 +62,7 @@ export const connectAccountUpdate = (info) => {
     }
 
     _callState.whitelist[info.app] = list;
-    saveState();
+    await saveState();
 
     return {changed, list};
 }
@@ -71,8 +71,11 @@ const storeId = () => {
     return browser.runtime.id + "-callstore"
 }
 
-export const restoreState = () => {
-    const stored = localStorage.getItem(storeId());
+export const restoreState = async () => {
+    const stored = await browser.storage.local.get(storeId());
+    console.log("stored data is ");
+    console.dir(storeId)
+
     if (stored) {
         const obj = JSON.parse(stored);
 
@@ -85,7 +88,7 @@ export const restoreState = () => {
     }
 }
 
-const saveState = () => {
+const saveState = async () => {
     const to_saved_state = {
         accounts: _callState.accounts,
         currentAccIndex: _callState.currentAccIndex,
@@ -94,10 +97,12 @@ const saveState = () => {
         recipients: _callState.recipients,
         whitelist: _callState.whitelist
     }
-    localStorage.setItem(storeId(), JSON.stringify(to_saved_state));
+    browser.storage.local.set({
+        [storeId()]:  JSON.stringify(to_saved_state)
+    })
 }
 
-export const initAccountUpdate = (info) => {
+export const initAccountUpdate = async (info) => {
     _callState.mnemonic = info.encMnemonic;
     _callState.walletPwd = info.encPassword; // tmp state
     const accounts = info.accounts;
@@ -109,7 +114,7 @@ export const initAccountUpdate = (info) => {
     _callState.accounts = accounts;
     _callState.nextAccountIndex = accounts.length;
 
-    saveState();
+    await saveState();
     return true;
 }
 
@@ -126,41 +131,41 @@ export const getNetworkState = () => {
     return _callState.connected;
 }
 
-export const addAccountUpdate = (info) => {
+export const addAccountUpdate = async (info) => {
     _callState.accounts = _callState.accounts.concat(info);
     if (info.derived) {
         _callState.nextAccountIndex += 1;
     }
 
-    saveState();
+    await saveState();
     return true;
 }
 
-export const changeAccountUpdate = (index) => {
+export const changeAccountUpdate = async (index) => {
     if (index >= 0 && index < _callState.accounts.length) {
         _callState.currentAccIndex = index;
     }
 
-    saveState();
+    await saveState();
     return _callState.accounts[_callState.currentAccIndex]
 }
 
-export const editAccountNameUpdate = (name) => {
+export const editAccountNameUpdate = async (name) => {
     const accounts = _callState.accounts;
     accounts[_callState.currentAccIndex].name = name;
     _callState.accounts = accounts;
 
-    saveState();
+    await saveState();
     return true;
 }
 
-export const newRecipientUpdate = (address) => {
+export const newRecipientUpdate = async (address) => {
     const got = _callState.recipients.find((item) => item == address);
     if (!got) {
         _callState.recipients = _callState.recipients.concat(address);
     }
 
-    saveState();
+    await saveState();
     return true;
 }
 
