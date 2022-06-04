@@ -26,6 +26,8 @@ chromeName.forEach((name) => {
 
 const isDevMode = process.env.NODE_ENV === 'development'
 
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+
 module.exports = {
   pages,
   filenameHashing: false,
@@ -50,6 +52,9 @@ module.exports = {
       filename: `[name].js`,
       chunkFilename: `[name].js`
     },
+    plugins: [
+      new NodePolyfillPlugin()
+    ],
     devtool: isDevMode ? 'inline-source-map' : false
   },
   css: {
