@@ -29,6 +29,11 @@ const EMPTY_ACCOUNT = {
     ownerCount: 0
 }
 
+const EMPTY_ACCOUNT_ITEM = {
+    name: undefined,
+    address: undefined
+}
+
 const store = new Vuex.Store({
     state: {
         isShowConnected: false,
@@ -71,6 +76,7 @@ const store = new Vuex.Store({
         },
         currentAccount: (state) => {
             const account = state.accounts[state.currentAccIndex]
+            if (!account) return EMPTY_ACCOUNT_ITEM
             return account
         },
         currentIndex: (state) => {

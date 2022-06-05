@@ -24,7 +24,7 @@
             </v-avatar>
             <div class="ml-2">
               <div class="fz-8 black--text">
-                {{ item.name }} ({{ item.address.substring(item.address.length-6) }})
+                {{ item.name }} ({{ item.address | showAddress }})
               </div>
               <div class="grey--text">{{ 0 }} CALL</div>
             </div>

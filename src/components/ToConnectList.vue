@@ -15,7 +15,7 @@
         <div class="list-item py-4 d-flex align-center"
             v-for="(item, index) in accountItems" :key="index">
           <!-- <v-avatar :size="30" color="grey"> </v-avatar> -->
-          <span class="ml-2">{{item.name}}({{item.address.substring(item.address.length-6)}})</span>
+          <span class="ml-2">{{item.name}}({{item.address | showAddress}})</span>
           <span>&nbsp;&nbsp;</span>
           <strong :class="{ activetext: item.active, nonactivetext: !item.active }">{{item.active ? " Active" : "Not Connected"}}</strong>
           <span @click="onSwitch(item)" class="ml-auto switch-text">{{item.active ? "Switch To" : "Connect"}}</span>

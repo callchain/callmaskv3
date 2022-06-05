@@ -5,7 +5,7 @@
     </v-avatar>
     <div class="fz-16 mt-2">{{params.data ? params.data.app : ''}}</div>
     <div class="fz-20 mt-4">
-      Connect to {{selectedList[0].name}}({{selectedList[0].address.substring(selectedList[0].address.length-6)}})
+      Connect to {{selectedList[0].name}}({{selectedList[0].address | showAddress}})
     </div>
     <div class="grey--text">Allow this app: </div>
     <div class="d-flex justify-center">

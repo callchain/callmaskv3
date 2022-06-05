@@ -15,7 +15,7 @@
         <v-avatar size="30">
           <v-img :src="require('@/assets/call.png')"></v-img>
         </v-avatar>
-        <span class="ml-2">{{currentAddress.substring(currentAddress.length-6)}}</span>
+        <span class="ml-2">{{currentAddress | showAddress}}</span>
       </div>
       <v-icon class="swap" size="30"
         >mdi-arrow-right-thin-circle-outline</v-icon
@@ -27,7 +27,7 @@
         <v-avatar size="30">
           <v-img :src="require('@/assets/call.png')"></v-img>
         </v-avatar>
-        <span class="ml-2">{{recipient.substring(recipient.length-6)}}</span>
+        <span class="ml-2">{{recipient | showAddress}}</span>
       </div>
     </div>
     <v-divider />

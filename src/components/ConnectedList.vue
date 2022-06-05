@@ -14,7 +14,7 @@
       <div v-if="accountItems.length > 0" class="list px-4">
         <div class="list-item py-4 d-flex align-center"
             v-for="(item, index) in accountItems" :key="index">
-          <span class="ml-2">{{item.name}}({{item.address.substring(item.address.length-6)}})</span>
+          <span class="ml-2">{{item.name}}({{item.address | showAddress}})</span>
           <v-icon @click="onDisconnect(item)" class="ml-auto">mdi-link-variant-off</v-icon>
         </div>
       </div>

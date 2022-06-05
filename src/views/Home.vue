@@ -9,9 +9,7 @@
       <div @click="onCopy" class="top-menu">
         <div class="account-name">{{currentAccount.name}}</div>
         <div class="account-val">
-          {{
-            currentAddress.substring(currentAddress.length - 6)
-          }}
+          {{ currentAddress | showAddress }}
         </div>
       </div>
 
@@ -56,7 +54,7 @@
                   :src="require('@/assets/call.png')"
                 />
                 <div class="ml-2">
-                  <div class="fz-16">{{item.value}} {{item.currency}}{{ item.counterparty ? '@' + item.counterparty.substring(item.counterparty.length - 6) : ''  }}
+                  <div class="fz-16">{{item.value}} {{item.currency}}{{ item.counterparty ? '@' + (item.counterparty | showAddress) : ''  }}
                   </div>
                   <div class="grey--text">$0.00 USD</div>
                 </div>

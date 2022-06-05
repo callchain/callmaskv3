@@ -4,7 +4,7 @@
       <v-avatar>
         <v-img :src="require('@/assets/logo.png')" width="64"></v-img>
       </v-avatar>
-      <span class="ml-2">{{currentAddress.substring(currentAddress.length - 6)}}</span>
+      <span class="ml-2">{{currentAddress | showAddress}}</span>
       <v-btn class="ml-auto fz-12" small outlined rounded>
         {{params.data.app}}
       </v-btn>
