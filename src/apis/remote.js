@@ -1,6 +1,6 @@
 import store from '../store'
 import { Parser, txInfo } from './transaction-parser'
-import vue from '../main'
+import vue from '../entry/popup'
 import utils from './utils'
 
 import { MSG_TYPE } from "../scripts/message";

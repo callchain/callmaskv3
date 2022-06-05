@@ -32,8 +32,7 @@ export const _getItem = async (key) => {
         const obj = JSON.parse(stored);
         if (obj.accounts) return obj
     } catch (e) {
-        console.log("Error to get stored in state");
-        console.error(e);
+        // eslint-disable-next-line
     }
 
     return null;

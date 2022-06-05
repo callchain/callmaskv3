@@ -12,7 +12,17 @@ import qs from 'qs'
 import { getWalletPwdRPC, initMessage } from '../apis/message'
 import { isEmpty } from 'lodash'
 
-// initMessage()
+const getItem = async (key) => {
+    const stored = await browser.storage.local.get(key)
+    try {
+        const obj = JSON.parse(stored)
+        if (obj.accounts) return obj
+    } catch (e) {
+      // eslint-disable-next-line
+    }
+
+    return null
+}
 
 export default {
   name: 'App',
@@ -22,6 +32,23 @@ export default {
   }),
   async created() {
     console.log("goto popup main.js")
+    console.dir(this.$store.state)
+
+    const storeId = browser.runtime.id + "-callstore"
+    const storedState = await getItem(storeId)
+    if (storedState) {
+        // restore state data
+        const needState = {
+          accounts: storedState.accounts,
+          currentAccIndex: storedState.currentAccIndex,
+          mnemonic: storedState.mnemonic,
+          nextAccountIndex: storedState.nextAccountIndex,
+          recipients: storedState.recipients,
+          whitelist: storedState.whitelist
+        }
+        this.$store.replaceState(Object.assign({}, this.$store.state, needState))
+    }
+    console.log("init Appstate");
     console.dir(this.$store.state)
 
     // init connection between bg and popup
