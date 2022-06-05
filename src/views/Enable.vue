@@ -116,6 +116,8 @@ export default {
     },
   },
   created() {
+    console.log("Enable created")
+
     this.params = this.$route.query
 
     this.tx = {

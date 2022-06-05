@@ -8,6 +8,19 @@
 
 <script>
 
+const getItem = async (key) => {
+    const stored = await browser.storage.local.get(key)
+    try {
+        const obj = JSON.parse(stored)
+        if (obj.accounts) return obj
+    } catch (e) {
+      console.log("Error in get stored")
+      console.error(e)
+    }
+
+    return null
+}
+
 export default {
   name: 'App',
 
@@ -15,11 +28,11 @@ export default {
     //
   }),
   async created() {
+    console.log("Enter App.vue ...")
     const storeId = browser.runtime.id + "-callstore"
-    const _stored = await browser.storage.local.get(storeId)
-    if (_stored) {
+    const storedState = await getItem(storeId)
+    if (storedState) {
         // restore state data
-        const storedState = JSON.parse(_stored)
         const needState = {
           accounts: storedState.accounts,
           currentAccIndex: storedState.currentAccIndex,

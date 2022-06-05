@@ -238,6 +238,7 @@ export default {
     }
   },
   created() {
+    console.log("AccountMenu created")
     this.name = this.currentAccount.name
   }
 };

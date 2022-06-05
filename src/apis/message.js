@@ -42,6 +42,7 @@ let bgConnection = null;
  * Init connection from background, and save connection
  */
 export const initMessage = () => {
+    console.log("init message ...")
     return new Promise((resolve, reject) => {
         browser.runtime.onConnect.addListener((connection) => {
             if (connection.name !== "popupConnection") {
@@ -51,6 +52,7 @@ export const initMessage = () => {
             resolve(true);
         })
 
+        console.log("send init mesg")
         sendMessage(MSG_TYPE.POPUP_INITIALIZED, {});
     });
 }

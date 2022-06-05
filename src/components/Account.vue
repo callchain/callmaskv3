@@ -113,6 +113,9 @@ export default {
       this.$store.dispatch("changeView", {app: app, index: idx})
     },
   },
+  created() {
+    console.log("Account created")
+  }
 };
 </script>
 

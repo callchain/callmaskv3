@@ -3,6 +3,9 @@ import { getRemote } from "./remote"
 import { txInfo } from "./transaction-parser"
 
 export const getBalances = async (address) => {
+    if (!address) {
+        return [{currency: 'CALL', value: 0}]
+    }
     try {
         const remote = await getRemote()
         return await remote.getBalances(address)
@@ -15,6 +18,9 @@ export const getBalances = async (address) => {
 }
 
 export const getAccountInfo = async (address) => {
+    if (!address) {
+        return {}
+    }
     try {
         const remote = await getRemote()
         return await remote.getAccountInfo(address)

@@ -66,6 +66,7 @@ const store = new Vuex.Store({
         },
         currentAddress: (state) => {
             const account = state.accounts[state.currentAccIndex]
+            if (!account) return undefined
             return account.address
         },
         currentAccount: (state) => {

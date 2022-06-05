@@ -21,19 +21,26 @@ export default {
     //
   }),
   async created() {
+    console.log("goto popup main.js")
+    console.dir(this.$store.state)
+
     // init connection between bg and popup
     await initMessage();
 
     // processed
     let params = null
+    console.log("window.name=" + window.name)
     if (window.name === POPUP_WINDOW_NAME) {
         params = qs.parse(window.location.search.substring(1))
     }
 
     // In this state, state should have account info(include secrets)
+    console.log("this.$store.state.accounts.length=" + this.$store.state.accounts.length)
     if (this.$store.state.accounts.length === 0) {
       // ignore params for not created account
+      console.log("go to welcome")
       this.$router.push("/welcome")
+      return
     } else {
       if (!this.$store.state.walletPwd) {
         const encPassword = await getWalletPwdRPC()

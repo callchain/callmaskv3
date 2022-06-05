@@ -20,6 +20,25 @@ const _callState = {
     walletPwd: undefined
 }
 
+export const _setItem = async (key, value) => {
+    browser.storage.local.set({
+        [key]: value
+    });
+}
+
+export const _getItem = async (key) => {
+    const stored = await browser.storage.local.get(key);
+    try {
+        const obj = JSON.parse(stored);
+        if (obj.accounts) return obj
+    } catch (e) {
+        console.log("Error to get stored in state");
+        console.error(e);
+    }
+
+    return null;
+}
+
 export const getCurrentAccounts = (app) => {
     return _callState.whitelist[app] || []
 }
@@ -72,13 +91,10 @@ const storeId = () => {
 }
 
 export const restoreState = async () => {
-    const stored = await browser.storage.local.get(storeId());
-    console.log("stored data is ");
-    console.dir(storeId)
+    const _id = storeId();
+    const obj = await _getItem(_id);
 
-    if (stored) {
-        const obj = JSON.parse(stored);
-
+    if (obj) {
         _callState.accounts = obj.accounts;
         _callState.currentAccIndex = obj.currentAccIndex;
         _callState.mnemonic = obj.mnemonic;
@@ -97,9 +113,8 @@ const saveState = async () => {
         recipients: _callState.recipients,
         whitelist: _callState.whitelist
     }
-    browser.storage.local.set({
-        [storeId()]:  JSON.stringify(to_saved_state)
-    })
+    const _id = storeId();
+    await _setItem(_id, JSON.stringify(to_saved_state));
 }
 
 export const initAccountUpdate = async (info) => {
