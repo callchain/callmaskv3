@@ -42,7 +42,9 @@
     "sass": "^1.52.2",
     "sass-loader": "^13.0.0",
     "vue-cli-plugin-chrome-extension-cli": "~1.1.4",
+    "vue-cli-plugin-vuetify": "^2.5.1",
     "vue-template-compiler": "^2.6.14",
+    "vuetify-loader": "^1.7.3",
     "webextension-polyfill": "^0.9.0"
   }
 }
