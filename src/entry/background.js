@@ -1,4 +1,4 @@
-import { validateMessage, SENDER, EXT_NAME, MSG_TYPE, POPUP_WINDOW_NAME } from "../scripts/message";
+import { validateMessage, SENDER, EXT_NAME, MSG_TYPE } from "../scripts/message";
 import { RPC_CALL } from '../apis/message';
 import qs from 'qs';
 
@@ -71,9 +71,15 @@ const openPopup = async (msg) => {
     const width = Number(msg.data.width);
     msg.sender = SENDER.BACKGROUND;
     const querystr = qs.stringify(msg);
-    const specs = "width=380,height=630,status=no,scrollbars=yes,resizable=no,location=no,menubar=no,left=" + (width-380);
-    const _window = browser.windows.getCurrent();
-    _window.open("popup.html?" + querystr, POPUP_WINDOW_NAME, specs);
+
+    await browser.windows.create({
+        type: "popup",
+        url: "popup.html?" + querystr,
+        left: (width-380),
+        width: 380,
+        height: 630,
+        focused: true
+    })
 }
 
 /**

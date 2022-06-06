@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { MSG_TYPE, POPUP_WINDOW_NAME } from '../scripts/message'
+import { MSG_TYPE } from '../scripts/message'
 import qs from 'qs'
 import { getWalletPwdRPC, initMessage } from '../apis/message'
 import { isEmpty } from 'lodash'
@@ -51,10 +51,7 @@ export default {
     await initMessage();
 
     // processed
-    let params = null
-    if (window.name === POPUP_WINDOW_NAME) {
-        params = qs.parse(window.location.search.substring(1))
-    }
+    let params = qs.parse(window.location.search.substring(1))
 
     // In this state, state should have account info(include secrets)
     if (this.$store.state.accounts.length === 0) {
