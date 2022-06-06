@@ -1,12 +1,12 @@
 import { EXT_NAME, MSG_TYPE, SENDER, validateMessage } from "../scripts/message";
 import { getFavicon, createUUID, getHost } from '../scripts/utils';
 
-function injectScript() {
+const injectScript = async() => {
     try {
         const container = document.head || document.documentElement;
         const scriptTag = document.createElement('script');
         scriptTag.type = 'text/javascript';
-        const url = browser.extension.getURL('js/inpage.js');
+        const url = browser.runtime.getURL('inpage.js');
         scriptTag.src = url;
         container.appendChild(scriptTag);
     } catch (error) {

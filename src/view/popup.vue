@@ -46,7 +46,6 @@ export default {
         }
         this.$store.replaceState(Object.assign({}, this.$store.state, needState))
     }
-    console.dir(this.$store.state)
 
     // init connection between bg and popup
     await initMessage();

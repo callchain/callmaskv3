@@ -31,7 +31,7 @@ const hashToConnections = {} // hash => cid
 const appToConnections = {} // app => cid
 
 browser.runtime.onInstalled.addListener(async function () {
-    console.log("CallMask extension installed" + new Date())
+    console.log("CallMask extension installed at " + new Date())
 
     await restoreState();
 });
@@ -72,7 +72,7 @@ const openPopup = async (msg) => {
     msg.sender = SENDER.BACKGROUND;
     const querystr = qs.stringify(msg);
     const specs = "width=380,height=630,status=no,scrollbars=yes,resizable=no,location=no,menubar=no,left=" + (width-380);
-    const _window = chrome.window.getCurrent();
+    const _window = browser.windows.getCurrent();
     _window.open("popup.html?" + querystr, POPUP_WINDOW_NAME, specs);
 }
 
