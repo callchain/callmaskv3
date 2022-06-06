@@ -141,8 +141,6 @@ export default {
     },
   },
   created() {
-    console.log("SendConfirm created")
-
     this.fee = this.$route.query.fee
     this.balanceItem = this.$route.query.balanceItem
     this.amount = this.$route.query.amount

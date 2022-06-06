@@ -186,7 +186,6 @@ export default {
     }
   },
   async created() {
-    console.log("Home created")
     await this.doInit()
     this.appInfo = await getCurrentApp()
   }

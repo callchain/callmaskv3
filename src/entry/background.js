@@ -247,9 +247,6 @@ const handleUiApiCalls = async (msg) => {
  */
 let popupConnection = null;
 const popupListener = async (res) => {
-    console.log("Message from popup");
-    console.dir(res);
-
     // ############ MSG_B #2
     const data = await handleUiApiCalls(res);
 

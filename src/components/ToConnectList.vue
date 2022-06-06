@@ -7,7 +7,7 @@
       <div class="px-6 pb-4">
         <div class="fz-18 font-weight-bold mb-4">{{appInfo.app}}</div>
         <div>
-          Your current account(<b>{{currentAccount.name}}</b>) is not connected
+          Current account(<b>{{currentAccount.name}}</b>) is not connected
         </div>
       </div>
       <v-divider />

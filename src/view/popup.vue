@@ -14,9 +14,6 @@ import { isEmpty } from 'lodash'
 
 const getItem = async (key) => {
     const stored = await browser.storage.local.get(key)
-    console.log("get item key=" + key);
-    console.log("sored");
-    console.dir(stored)
     try {
         const obj = JSON.parse(stored[key])
         if (obj.accounts) return obj
@@ -34,13 +31,8 @@ export default {
     //
   }),
   async created() {
-    console.log("goto popup main.js")
-    console.dir(this.$store.state)
-
     const storeId = browser.runtime.id + "-callstore"
     const storedState = await getItem(storeId)
-    console.log("stored state");
-    console.dir(storedState)
 
     if (storedState) {
         // restore state data
@@ -54,7 +46,6 @@ export default {
         }
         this.$store.replaceState(Object.assign({}, this.$store.state, needState))
     }
-    console.log("init Appstate");
     console.dir(this.$store.state)
 
     // init connection between bg and popup
@@ -62,16 +53,13 @@ export default {
 
     // processed
     let params = null
-    console.log("window.name=" + window.name)
     if (window.name === POPUP_WINDOW_NAME) {
         params = qs.parse(window.location.search.substring(1))
     }
 
     // In this state, state should have account info(include secrets)
-    console.log("this.$store.state.accounts.length=" + this.$store.state.accounts.length)
     if (this.$store.state.accounts.length === 0) {
       // ignore params for not created account
-      console.log("go to welcome")
       this.$router.push("/welcome")
       return
     } else {
