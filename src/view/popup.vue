@@ -14,8 +14,11 @@ import { isEmpty } from 'lodash'
 
 const getItem = async (key) => {
     const stored = await browser.storage.local.get(key)
+    console.log("get item key=" + key);
+    console.log("sored");
+    console.dir(stored)
     try {
-        const obj = JSON.parse(stored)
+        const obj = JSON.parse(stored[key])
         if (obj.accounts) return obj
     } catch (e) {
       // eslint-disable-next-line
@@ -36,6 +39,9 @@ export default {
 
     const storeId = browser.runtime.id + "-callstore"
     const storedState = await getItem(storeId)
+    console.log("stored state");
+    console.dir(storedState)
+
     if (storedState) {
         // restore state data
         const needState = {

@@ -29,7 +29,7 @@ export const _setItem = async (key, value) => {
 export const _getItem = async (key) => {
     const stored = await browser.storage.local.get(key);
     try {
-        const obj = JSON.parse(stored);
+        const obj = JSON.parse(stored[key]);
         if (obj.accounts) return obj
     } catch (e) {
         // eslint-disable-next-line
@@ -128,6 +128,7 @@ export const initAccountUpdate = async (info) => {
     _callState.accounts = accounts;
     _callState.nextAccountIndex = accounts.length;
 
+    console.log("init and save item")
     await saveState();
     return true;
 }
