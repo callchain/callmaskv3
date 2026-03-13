@@ -12,6 +12,7 @@
 </template>
 
 <script>
+/* eslint-disable vue/no-reserved-component-names */
 export default {
   name: "Main",
 };

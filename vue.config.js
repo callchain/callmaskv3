@@ -1,19 +1,19 @@
 const path = require('path')
 const fs = require('fs')
 
-// Generate pages object
 const pages = {}
 
-function getEntryFile (entryPath) {
+function getEntryFile(entryPath) {
   let files = fs.readdirSync(entryPath)
   return files
 }
 
 const chromeName = getEntryFile(path.resolve(`src/entry`))
 
-function getFileExtension (filename) {
+function getFileExtension(filename) {
   return /[.]/.exec(filename) ? /[^.]+$/.exec(filename)[0] : undefined
 }
+
 chromeName.forEach((name) => {
   const fileExtension = getFileExtension(name)
   const fileName = name.replace('.' + fileExtension, '')
@@ -55,10 +55,30 @@ module.exports = {
     plugins: [
       new NodePolyfillPlugin()
     ],
+    resolve: {
+      alias: {
+        '@callchain/call-core-lib': path.resolve(__dirname, '../call-core-lib/dist/browser/call-core-lib.min.js')
+      },
+      fallback: {
+        'events': require.resolve('events/'),
+        'stream': false,
+        'util': false,
+        'buffer': false,
+        'crypto': false
+      }
+    },
+    module: {
+      rules: [
+        {
+          test: /call-core-lib\.min\.js$/,
+          use: ['script-loader']
+        }
+      ]
+    },
     devtool: isDevMode ? 'inline-source-map' : false
   },
   css: {
-    extract: false // Make sure the css is the same
+    extract: false
   },
   transpileDependencies: [
     'vuetify'

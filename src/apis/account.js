@@ -1,7 +1,9 @@
 const bip39 = require('bip39');
-const { Wallet } = require('@callchain/call-core-lib');
 const { DERIVE_PATH } = require('./constant');
 const derivePath = require('ed25519-hd-key').derivePath;
+
+// CallCore is loaded as a global variable via script-loader
+const Wallet = (typeof window !== 'undefined' && window.CallCore) ? window.CallCore.Wallet : null;
 
 const ENTROPY_BITS = 128; // 12 words
 const LANGUAGE = 'english';
@@ -31,7 +33,8 @@ const getAccountFromEntropy = function(key) {
     }
 }
 
-function generateSeedFromEntropy(entropy) {
+// eslint-disable-next-line no-unused-vars
+function generateSeedFromEntropy(_entropy) {
     // Use call-core-lib's Wallet to generate seed
     const wallet = Wallet.generate();
     return wallet.seed;
