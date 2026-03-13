@@ -5,6 +5,7 @@ import utils from './utils'
 
 import { MSG_TYPE } from "../scripts/message";
 import { sendMessage } from './message'
+import { CallAPI } from './call-core-wrapper'
 
 const S3_URL = "wss://s3.callchain.cc:443"
 
@@ -24,18 +25,17 @@ export const getRemote = async () => {
 }
 
 const createRemote = () => {
-    // eslint-disable-next-line
-    const remote = new call.CallAPI({server: S3_URL})
+    const remote = new CallAPI({server: S3_URL})
 
     remote.on('error', function(code, msg) {
         console.error('Call connection error, code=' + code + ', msg=' + msg)
         store.dispatch("networkState", false)
     })
-    
+
     remote.on('connected', function() {
         store.dispatch("networkState", true)
     })
-    
+
     remote.on('disconnected', function() {
         store.dispatch("networkState", false)
     })
@@ -43,7 +43,7 @@ const createRemote = () => {
     remote.on('ledger', function(ledger) {
         store.commit('updateLedger', ledger)
     })
-    
+
     remote.on('transactions', async function(tx) {
         let hash = tx.transaction.hash
         let address = store.getters.currentAddress

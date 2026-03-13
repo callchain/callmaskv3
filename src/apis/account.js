@@ -1,5 +1,5 @@
 const bip39 = require('bip39');
-const callKeyPairs = require('call-keypairs');
+const { Wallet } = require('@callchain/call-core-lib');
 const { DERIVE_PATH } = require('./constant');
 const derivePath = require('ed25519-hd-key').derivePath;
 
@@ -10,17 +10,31 @@ const wallet = require('./wallet');
 const _ = require('lodash');
 
 const getAccountFromSecret = function(secret) {
-    const keypair = callKeyPairs.deriveKeypair(secret);
-    const address = callKeyPairs.deriveAddress(keypair.publicKey);
-    return { secret, address };
+    try {
+        const wallet = Wallet.fromSeed(secret);
+        return { secret, address: wallet.address };
+    } catch (error) {
+        console.error('Invalid secret:', error);
+        throw error;
+    }
 }
 
 const getAccountFromEntropy = function(key) {
-    let options = {'entropy':key};
-    const secret = callKeyPairs.generateSeed(options);
-    const keypair = callKeyPairs.deriveKeypair(secret);
-    const address = callKeyPairs.deriveAddress(keypair.publicKey);
-    return { secret, address };
+    try {
+        // Generate seed from entropy
+        const seed = generateSeedFromEntropy(key);
+        const wallet = Wallet.fromSeed(seed);
+        return { secret: seed, address: wallet.address };
+    } catch (error) {
+        console.error('Error deriving account from entropy:', error);
+        throw error;
+    }
+}
+
+function generateSeedFromEntropy(entropy) {
+    // Use call-core-lib's Wallet to generate seed
+    const wallet = Wallet.generate();
+    return wallet.seed;
 }
 
 function generateMnemonic() {
